@@ -1,9 +1,9 @@
 package server
 
 import (
-	"os"
 	"goVideo/api"
 	"goVideo/middleware"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -43,13 +43,13 @@ func NewRouter() *gin.Engine {
 		//视频投稿
 		v1.POST("video", api.CreateVideo)
 		////视频详情
-		//v1.GET("video/:id",api.ShowVideo)
+		v1.GET("video/:id", api.ShowVideo)
 		////视频列表
-		//v1.GET("video/list",api.ListVideo)
+		v1.GET("videos", api.ListVideo)
 		////更新视频
 		//v1.PUT("video/:id",api.UpdateVideo)
 		////删除视频
-		//v1.DELETE("video/Lid",api.DeleteVideo)
+		//v1.DELETE("video/:id",api.DeleteVideo)
 
 	}
 	return r

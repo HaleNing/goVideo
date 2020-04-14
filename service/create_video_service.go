@@ -1,7 +1,6 @@
 package service
 
 import (
-	"github.com/jinzhu/gorm"
 	"goVideo/model"
 	"goVideo/serializer"
 )
@@ -15,9 +14,20 @@ type CreateVideoService struct {
 //Create 创建视频
 func (service *CreateVideoService) Create() serializer.Response {
 	video := model.Video{
-		Model:     gorm.Model{},
 		TitleName: service.TitleName,
 		Info:      service.Info,
 	}
-	//model.DB.Create(video)
+	//在数据库中创建一条视频 注意&
+	err := model.DB.Create(&video).Error
+	if err == nil {
+		return serializer.Response{
+			Data: serializer.BuildVideo(video),
+		}
+	} else {
+		return serializer.Response{
+			Code:  50001,
+			Msg:   "视频创建失败",
+			Error: err.Error(),
+		}
+	}
 }

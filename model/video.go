@@ -2,7 +2,7 @@ package model
 
 import "github.com/jinzhu/gorm"
 
-// User 用户模型
+// Video 视频模型
 type Video struct {
 	gorm.Model
 	TitleName string
