@@ -9,12 +9,15 @@ import (
 type ShowVideoDetail struct {
 }
 
-//Create 创建视频
+//show 展示视频
 func (service *ShowVideoDetail) Show(id string) serializer.Response {
 	video := model.Video{}
 	// 根据主键查询一个记录
 	err := model.DB.First(&video, id).Error
 	if err == nil {
+
+		video.AddView()
+
 		return serializer.Response{
 			Data: serializer.BuildVideo(video),
 		}

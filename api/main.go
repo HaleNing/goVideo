@@ -22,6 +22,7 @@ func Ping(c *gin.Context) {
 // CurrentUser 获取当前用户
 func CurrentUser(c *gin.Context) *model.User {
 	if user, _ := c.Get("user"); user != nil {
+		//user.(*model.User) 是一个断言， 断言user是一个括号内model。User的对象
 		if u, ok := user.(*model.User); ok {
 			return u
 		}

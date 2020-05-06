@@ -14,9 +14,9 @@ type UserRegisterService struct {
 }
 
 // valid 验证表单
-func (service *UserRegisterService) valid() *serializer.Response {
+func (service *UserRegisterService) valid() serializer.Response {
 	if service.PasswordConfirm != service.Password {
-		return &serializer.Response{
+		return serializer.Response{
 			Code: 40001,
 			Msg:  "两次输入的密码不相同",
 		}
@@ -25,7 +25,7 @@ func (service *UserRegisterService) valid() *serializer.Response {
 	count := 0
 	model.DB.Model(&model.User{}).Where("nickname = ?", service.Nickname).Count(&count)
 	if count > 0 {
-		return &serializer.Response{
+		return serializer.Response{
 			Code: 40001,
 			Msg:  "昵称被占用",
 		}
@@ -34,13 +34,15 @@ func (service *UserRegisterService) valid() *serializer.Response {
 	count = 0
 	model.DB.Model(&model.User{}).Where("user_name = ?", service.UserName).Count(&count)
 	if count > 0 {
-		return &serializer.Response{
+		return serializer.Response{
 			Code: 40001,
 			Msg:  "用户名已经注册",
 		}
 	}
 
-	return nil
+	return serializer.Response{
+		Data: nil,
+	}
 }
 
 // Register 用户注册
@@ -52,8 +54,12 @@ func (service *UserRegisterService) Register() serializer.Response {
 	}
 
 	// 表单验证
-	if err := service.valid(); err != nil {
-		return *err
+	//if err := service.valid(); err != nil {
+	//	return *err
+	//}
+	response := service.valid()
+	if response.Data != nil {
+		return response
 	}
 
 	// 加密密码

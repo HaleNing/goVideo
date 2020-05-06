@@ -3,9 +3,9 @@ package conf
 import (
 	"goVideo/cache"
 	"goVideo/model"
+	"goVideo/task"
 	"goVideo/util"
 	"os"
-
 
 	"github.com/joho/godotenv"
 )
@@ -26,4 +26,6 @@ func Init() {
 	// 连接数据库
 	model.Database(os.Getenv("MYSQL_DSN"))
 	cache.Redis()
+
+	task.CronJob()
 }

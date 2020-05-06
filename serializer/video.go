@@ -7,15 +7,23 @@ type Video struct {
 	ID        uint   `json:"id"`
 	TitleName string `json:"title_name"`
 	Info      string `json:"info"`
+	Url       string `json:"url"`
+	View      uint64 `json:"view"`
+	User      User   `json:"user"`
 	CreatedAt int64  `json:"created_at"`
 }
 
 // BuildVideo 序列化视频
 func BuildVideo(video model.Video) Video {
+	user, _ := model.GetUser(video.UserId)
+
 	return Video{
 		ID:        video.ID,
 		TitleName: video.TitleName,
 		Info:      video.Info,
+		Url:       video.Url,
+		View:      video.View(),
+		User:      BuildUser(user),
 		CreatedAt: video.CreatedAt.Unix(),
 	}
 }
